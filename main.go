@@ -10,12 +10,12 @@ import (
 func main() {
 	fmt.Println("Hello, dungeon-60!")
 
-	g := game.Create()
-
 	rl.InitWindow(800, 600, "dungeon-60 v0.1")
 	defer rl.CloseWindow()
 
 	rl.SetTargetFPS(60)
+
+	g := game.Create()
 
 	for !rl.WindowShouldClose() {
 

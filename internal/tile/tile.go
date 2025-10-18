@@ -9,6 +9,7 @@ type TileType int
 const (
 	TILETYPE_STONE TileType = iota
 	TILETYPE_GRASS
+	TILETYPE_DIRT
 )
 
 type Position struct {
@@ -47,12 +48,18 @@ func (t *Tile) GetWorldPosition() rl.Vector2 {
 	return t.GetPositionAsVec2()
 }
 
+func (p *Position) GetWorldPosition() rl.Vector2 {
+	return rl.Vector2{X: float32(p.X) * TILE_SIZE, Y: float32(p.Y) * TILE_SIZE}
+}
+
 func (t *Tile) GetDrawColor() rl.Color {
 	switch t.Type {
 	case TILETYPE_STONE:
-		return rl.LightGray
+		return rl.Gray
 	case TILETYPE_GRASS:
 		return rl.Green
+	case TILETYPE_DIRT:
+		return rl.Brown
 	default:
 		return rl.Red
 	}
