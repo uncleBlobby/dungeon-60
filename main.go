@@ -22,9 +22,9 @@ func main() {
 
 		dt := rl.GetFrameTime()
 
-		g.Update(dt)
-
 		g.Draw()
+
+		g.Update(dt)
 
 		// g.CollisionSystem.Update(dt)
 

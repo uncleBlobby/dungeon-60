@@ -39,7 +39,7 @@ func Create() *Game {
 	g := &Game{}
 
 	g.Level = level.Create(128, 128)
-	g.Player = player.Create(g.Level.Width/2, g.Level.Height/2)
+	g.Player = player.Create(46, 46)
 	g.Entities = []*entity.Entity{}
 
 	// g.Entities = append(g.Entities, entity.Create(10, 10, false, entity.ENTITY_BUSH))
@@ -66,15 +66,16 @@ func (g *Game) Draw() {
 	g.EntitySystem.Draw()
 
 	rl.DrawText(fmt.Sprintf("FPS: %d", rl.GetFPS()), 5, 5, 24, rl.Black)
-	g.CollisionSystem.Draw()
+	//g.CollisionSystem.Draw()
 
 	rl.EndDrawing()
 }
 
 func (g *Game) Update(dt float32) {
 	g.LevelSystem.Update(dt)
-	g.PlayerSystem.Update(dt)
+
 	g.EntitySystem.Update(dt)
 
+	g.PlayerSystem.Update(dt)
 	// g.CollisionSystem.Update(dt)
 }
