@@ -10,12 +10,13 @@ import (
 func main() {
 	fmt.Println("Hello, dungeon-60!")
 
-	rl.InitWindow(800, 600, "dungeon-60 v0.1")
+	rl.InitWindow(1920, 1080, "dungeon-60 v0.1")
 	defer rl.CloseWindow()
 
 	rl.SetTargetFPS(60)
 
 	g := game.Create()
+	// g.SpriteSystem.InitSprites()
 
 	for !rl.WindowShouldClose() {
 
@@ -24,6 +25,8 @@ func main() {
 		g.Update(dt)
 
 		g.Draw()
+
+		// g.CollisionSystem.Update(dt)
 
 	}
 }

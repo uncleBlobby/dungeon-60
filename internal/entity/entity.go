@@ -15,8 +15,9 @@ type Entity struct {
 type EntityType string
 
 const (
-	ENTITY_TREE EntityType = "tree"
-	ENTITY_BUSH EntityType = "bush"
+	ENTITY_DEFAULT EntityType = "default"
+	ENTITY_TREE    EntityType = "tree"
+	ENTITY_BUSH    EntityType = "bush"
 )
 
 func Create(x, y int, s bool, t EntityType) *Entity {
@@ -30,9 +31,9 @@ func Create(x, y int, s bool, t EntityType) *Entity {
 		Type:  t,
 	}
 
-	if e.Type == ENTITY_BUSH {
-		e.Sprite = rl.LoadTexture("assets/sprites/bush1.png")
-	}
+	// if e.Type == ENTITY_BUSH {
+	// 	e.Sprite = rl.LoadTexture("assets/sprites/bush1.png")
+	// }
 
 	return e
 }
@@ -41,10 +42,11 @@ func (e *Entity) Draw() {
 
 	gridPos := e.Position.GetWorldPosition()
 
-	if e.Type == ENTITY_BUSH {
-		rl.DrawTexture(e.Sprite, int32(gridPos.X), int32(gridPos.Y), rl.White)
-	} else {
+	if e.Type == ENTITY_DEFAULT {
 		rl.DrawRectangle(int32(gridPos.X), int32(gridPos.Y), tile.TILE_SIZE, tile.TILE_SIZE, rl.Red)
+	} else {
+		rl.DrawTexture(e.Sprite, int32(gridPos.X), int32(gridPos.Y), rl.White)
+
 	}
 }
 

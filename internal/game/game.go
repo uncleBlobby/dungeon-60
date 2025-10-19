@@ -18,6 +18,9 @@ type Game struct {
 	LevelSystem  *systems.LevelSystem
 	PlayerSystem *systems.PlayerSystem
 	EntitySystem *systems.EntitySystem
+	SpriteSystem *systems.SpriteSystem
+
+	CollisionSystem *systems.CollisionSystem
 }
 
 func (g *Game) GetEntities() []*entity.Entity {
@@ -36,14 +39,19 @@ func Create() *Game {
 	g := &Game{}
 
 	g.Level = level.Create(128, 128)
-	g.Player = player.Create()
+	g.Player = player.Create(g.Level.Width/2, g.Level.Height/2)
 	g.Entities = []*entity.Entity{}
 
-	g.Entities = append(g.Entities, entity.Create(10, 10, false, entity.ENTITY_BUSH))
+	// g.Entities = append(g.Entities, entity.Create(10, 10, false, entity.ENTITY_BUSH))
+	// g.Entities = append(g.Entities, entity.Create(20, 10, false, entity.ENTITY_TREE))
 
 	g.LevelSystem = &systems.LevelSystem{World: g}
 	g.PlayerSystem = &systems.PlayerSystem{World: g}
 	g.EntitySystem = &systems.EntitySystem{World: g}
+	g.SpriteSystem = systems.InitTextures(g)
+	g.SpriteSystem.InitSprites()
+
+	g.CollisionSystem = &systems.CollisionSystem{World: g}
 
 	return g
 }
@@ -58,6 +66,7 @@ func (g *Game) Draw() {
 	g.EntitySystem.Draw()
 
 	rl.DrawText(fmt.Sprintf("FPS: %d", rl.GetFPS()), 5, 5, 24, rl.Black)
+	g.CollisionSystem.Draw()
 
 	rl.EndDrawing()
 }
@@ -66,4 +75,6 @@ func (g *Game) Update(dt float32) {
 	g.LevelSystem.Update(dt)
 	g.PlayerSystem.Update(dt)
 	g.EntitySystem.Update(dt)
+
+	// g.CollisionSystem.Update(dt)
 }

@@ -17,22 +17,96 @@ type Position struct {
 	Y int
 }
 
+func (p *Position) GetNeighbourPositionsAll() []Position {
+	directions := []Position{
+		//left
+		{X: -1, Y: 0},
+		//right
+		{X: 1, Y: 0},
+		//down
+		{X: 0, Y: 1},
+		//up
+		{X: 0, Y: -1},
+		//left-up
+		{X: -1, Y: -1},
+		//right-up
+		{X: 1, Y: -1},
+		//left-down
+		{X: -1, Y: 1},
+		//right-down
+		{X: 1, Y: 1},
+	}
+
+	nbs := []Position{}
+
+	for _, dir := range directions {
+		nbs = append(nbs, Position{
+			X: p.X + dir.X,
+			Y: p.Y + dir.Y,
+		})
+	}
+
+	return nbs
+}
+
+func (p *Position) GetNeighbourPositionsCardinal() []Position {
+	directions := []Position{
+		//left
+		{X: -1, Y: 0},
+		//right
+		{X: 1, Y: 0},
+		//down
+		{X: 0, Y: 1},
+		//up
+		{X: 0, Y: -1},
+	}
+
+	nbs := []Position{}
+
+	for _, dir := range directions {
+		nbs = append(nbs, Position{
+			X: p.X + dir.X,
+			Y: p.Y + dir.Y,
+		})
+	}
+
+	return nbs
+}
+
 type Tile struct {
 	Position Position
 	Size     int
 	Type     TileType
+	Collider rl.Rectangle
+	Walkable bool
+}
+
+func (t *Tile) SetDefaultWalkable() {
+	switch t.Type {
+	case TILETYPE_STONE:
+		t.Walkable = false
+	default:
+		t.Walkable = true
+	}
 }
 
 func Create(posX, posY int, size int, t TileType) *Tile {
+	pos := Position{
+		X: posX,
+		Y: posY,
+	}
+	worldPos := pos.GetWorldPosition()
 	tile := &Tile{
 		Position: Position{
 			X: posX,
 			Y: posY,
 		},
-		Size: size,
-		Type: t,
+		Size:     size,
+		Type:     t,
+		Collider: rl.Rectangle{X: worldPos.X, Y: worldPos.Y, Width: TILE_SIZE, Height: TILE_SIZE},
 	}
 
+	tile.SetDefaultWalkable()
 	return tile
 }
 

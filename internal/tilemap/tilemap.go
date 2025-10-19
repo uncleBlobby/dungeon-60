@@ -31,6 +31,17 @@ func CreateDefault(w, h int) *Tilemap {
 	return r
 }
 
+func (t *Tilemap) Index(x, y int) int {
+	return y*t.Width + x
+}
+
+func (t *Tilemap) Get(x, y int) *tile.Tile {
+	if x < 0 || y < 0 || x >= t.Width || y >= t.Height {
+		return nil
+	}
+	return t.Tiles[t.Index(x, y)]
+}
+
 func Create(w, h int) *Tilemap {
 	tm := []*tile.Tile{}
 
