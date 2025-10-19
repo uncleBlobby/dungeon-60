@@ -141,7 +141,6 @@ func (p *Player) ResolveWallCollision(level *level.Level, movDir rl.Vector2) rl.
 				}
 				p.UpdateCollider()
 			}
-
 		}
 	}
 	return movDir
