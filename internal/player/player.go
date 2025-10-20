@@ -52,8 +52,6 @@ func (p *Player) DrawEquipmentAttachment() {
 	radius := float32(32)
 	playerCenter := rl.Vector2{X: p.Position.X + tile.TILE_SIZE/2, Y: p.Position.Y + tile.TILE_SIZE/2}
 
-	//	rl.DrawLineV(playerCenter, mousePos, rl.Blue)
-
 	// Get direction vector from player to mouse
 	mousedir := rl.Vector2Subtract(mousePos, playerCenter)
 
@@ -73,8 +71,7 @@ func (p *Player) DrawEquipmentAttachment() {
 
 func (p *Player) Draw() {
 	rl.DrawRectangle(int32(p.Position.X), int32(p.Position.Y), tile.TILE_SIZE, tile.TILE_SIZE, rl.Blue)
-	//p.DebugDrawTilePosition()
-	p.DebugDrawVelocity()
+	// p.DebugDrawVelocity()
 	p.DrawEquipmentAttachment()
 }
 
@@ -91,6 +88,7 @@ func (p *Player) UpdateCollider() {
 
 func (p *Player) Update(dt float32) {
 
+	// TODO
 	// update facing direction to follow mouse pointer
 
 	p.Position.X += p.Direction.X * p.Speed * dt
@@ -100,27 +98,21 @@ func (p *Player) Update(dt float32) {
 
 func (p *Player) RegisterMoveIntent() rl.Vector2 {
 
-	// p.Direction = rl.Vector2{X: 0, Y: 0}
-
 	movIntent := rl.Vector2{X: 0, Y: 0}
 
 	if rl.IsKeyDown(rl.KeyW) {
-		// p.Direction.Y = -1
 		movIntent.Y = -1
 	}
 
 	if rl.IsKeyDown(rl.KeyS) {
-		// p.Direction.Y = +1
 		movIntent.Y = +1
 	}
 
 	if rl.IsKeyDown(rl.KeyA) {
-		// p.Direction.X = -1
 		movIntent.X = -1
 	}
 
 	if rl.IsKeyDown(rl.KeyD) {
-		// p.Direction.X = +1
 		movIntent.X = +1
 	}
 
@@ -128,17 +120,15 @@ func (p *Player) RegisterMoveIntent() rl.Vector2 {
 }
 
 func (p *Player) CollidesWithWall(level *level.Level) bool {
-	// playerTile := p.GetTilePosition()
-	// playerNeighbours := playerTile.GetNeighbourPositionsCardinal()
 
+	// TODO
+	// Optimize routine so it only loops through tiles next to player (neighbours)
+	// rather than every tile in the level -- for now it works okay
 	for _, t := range level.Tilemap.Tiles {
-		// for _, n := range playerNeighbours {
-
 		if rl.CheckCollisionRecs(p.Collider, t.Collider) && !t.Walkable {
 			return true
 		}
 	}
-
 	return false
 }
 

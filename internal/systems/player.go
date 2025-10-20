@@ -25,8 +25,6 @@ func (ps *PlayerSystem) Update(dt float32) {
 	p.UpdateCollider()
 	p.ResolveWallCollision(level, movDir)
 
-	// p.Direction = p.ResolveWallCollision(level, move)
-
 	p.Position.Y += move.Y
 	p.UpdateCollider()
 	p.ResolveWallCollision(level, movDir)

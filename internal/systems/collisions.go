@@ -12,7 +12,7 @@ type CollisionSystem struct {
 	World world.World
 }
 
-func (cs *CollisionSystem) Update(dt float32) {
+func (cs *CollisionSystem) Update(dt float32) { // UNUSED
 	p := cs.World.GetPlayer()
 
 	playerTile := p.GetTilePosition()
@@ -40,17 +40,7 @@ func (cs *CollisionSystem) Update(dt float32) {
 
 }
 
-func (cs *CollisionSystem) CheckPlayerCollidingWalls() {
-	// p := cs.World.GetPlayer()
-
-	// playerTile := p.GetTilePosition()
-
-	// playerNeighbours := playerTile.GetNeighbourPositionsCardinal()
-
-	// level := cs.World.GetLevel()
-}
-
-func (cs *CollisionSystem) Draw() {
+func (cs *CollisionSystem) Draw() { // UNUSED (DEBUGGING)
 	p := cs.World.GetPlayer()
 
 	playerTile := p.GetTilePosition()
