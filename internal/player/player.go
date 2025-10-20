@@ -11,6 +11,7 @@ import (
 type Player struct {
 	Position  rl.Vector2
 	Direction rl.Vector2
+	Facing    rl.Vector2
 	Speed     float32
 	Collider  rl.Rectangle
 }
@@ -23,6 +24,7 @@ func Create(x, y int) *Player {
 	p := &Player{
 		Position:  initWorldPos,
 		Direction: rl.Vector2{X: 0, Y: 0},
+		Facing:    rl.Vector2{X: 0, Y: 0},
 		Speed:     100,
 	}
 
@@ -45,10 +47,35 @@ func (p *Player) DebugDrawTilePosition() {
 	//rl.DrawCircleV(tilePos.GetWorldPosition(), 5, rl.Red)
 }
 
+func (p *Player) DrawEquipmentAttachment() {
+	mousePos := rl.GetMousePosition()
+	radius := float32(32)
+	playerCenter := rl.Vector2{X: p.Position.X + tile.TILE_SIZE/2, Y: p.Position.Y + tile.TILE_SIZE/2}
+
+	//	rl.DrawLineV(playerCenter, mousePos, rl.Blue)
+
+	// Get direction vector from player to mouse
+	mousedir := rl.Vector2Subtract(mousePos, playerCenter)
+
+	// Normalize that direction
+	mousedir = rl.Vector2Normalize(mousedir)
+
+	// Scale that direction by the radius (how far out is the equipment attachment point?)
+	offset := rl.Vector2Scale(mousedir, radius)
+
+	// Add that offset vector to the player (center) position
+	circlePoint := rl.Vector2Add(playerCenter, offset)
+	rl.DrawCircleV(circlePoint, 10, rl.Red)
+
+	// Draw radius for debug
+	rl.DrawCircleLinesV(playerCenter, radius, rl.Blue)
+}
+
 func (p *Player) Draw() {
 	rl.DrawRectangle(int32(p.Position.X), int32(p.Position.Y), tile.TILE_SIZE, tile.TILE_SIZE, rl.Blue)
-	p.DebugDrawTilePosition()
+	//p.DebugDrawTilePosition()
 	p.DebugDrawVelocity()
+	p.DrawEquipmentAttachment()
 }
 
 func (p *Player) GetTilePosition() tile.Position {
@@ -63,6 +90,8 @@ func (p *Player) UpdateCollider() {
 }
 
 func (p *Player) Update(dt float32) {
+
+	// update facing direction to follow mouse pointer
 
 	p.Position.X += p.Direction.X * p.Speed * dt
 	p.Position.Y += p.Direction.Y * p.Speed * dt
